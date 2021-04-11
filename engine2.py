@@ -79,4 +79,4 @@ while (1):
     conn_toko.commit()
     conn_bank.commit()
 
-    time.sleep(config.DELAY)
+    time.sleep(config.DELAY2)

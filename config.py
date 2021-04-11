@@ -1,4 +1,5 @@
-DELAY = 1
+DELAY1 = 1
+DELAY2 = 2
 
 DB_TOKO = {
     'host': 'ls-4d24bcf5a512ee7a85643848c6dc9003e0c79f05.cracrx4tayxk.ap-southeast-1.rds.amazonaws.com',
