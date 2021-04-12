@@ -18,7 +18,12 @@ def query_delete_builder(tb_name):
     sql += " WHERE id_transaksi = %s"
     return sql
 
-def query_update_builder(tb_name):
+def query_update_bank_builder(tb_name):
     sql = "UPDATE " + tb_name
-    sql += " SET rekening = %s, tanggal = %s, total = %s, status = %s where id_transaksi = %s"
+    sql += " SET rekening = %s, tanggal = %s, total = %s where id_transaksi = %s"
+    return sql
+
+def query_update_toko_builder(tb_name):
+    sql = "UPDATE " + tb_name
+    sql += " SET status = %s where id_transaksi = %s"
     return sql
