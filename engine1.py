@@ -26,15 +26,15 @@ while (1):
         if (is_sync == 0):
             print("Insert id %s" % (data_transaksi[0]))
             
-            data = (data_transaksi)
+            data = (data_transaksi[0], config.KODE_TOKO, data_transaksi[1], data_transaksi[2], data_transaksi[3], data_transaksi[4])
 
-            query = helper.query_insert_builder('tb_integrasi')
-            cur_toko.execute(query, data)
+            query = helper.query_insert_toko_builder('tb_integrasi')
+            cur_toko.execute(query, data_transaksi)
 
-            query = helper.query_insert_builder('tb_integrasi')
+            query = helper.query_insert_bank_builder('tb_integrasi')
             cur_bank.execute(query, data)
 
-            query = helper.query_insert_builder('tb_transaksi')
+            query = helper.query_insert_bank_builder('tb_transaksi')
             cur_bank.execute(query, data)
 
     # delete
@@ -46,14 +46,16 @@ while (1):
         if (is_sync == 0):
             print("Delete id %s" % (data_integrasi[0]))
 
-            query = helper.query_delete_builder('tb_integrasi')
+            data = (data_integrasi[0], config.KODE_TOKO)
+
+            query = helper.query_delete_toko_builder('tb_integrasi')
             cur_toko.execute(query, data_integrasi[0])
 
             query = helper.query_delete_builder('tb_integrasi')
-            cur_bank.execute(query, data_integrasi[0])
+            cur_bank.execute(query, data)
 
             query = helper.query_delete_builder('tb_transaksi')
-            cur_bank.execute(query, data_integrasi[0])
+            cur_bank.execute(query, data)
 
     # update
     if (transaksi != integrasi):
@@ -62,17 +64,17 @@ while (1):
                 if (data_transaksi[0] == data_integrasi[0]):
                     if (data_transaksi != data_integrasi):
                         print("Update id %s" % (data_transaksi[0]))
-                        
                         data = (data_transaksi[1], data_transaksi[2], data_transaksi[3], data_transaksi[0])
+                        data_kode = (data_transaksi[1], data_transaksi[2], data_transaksi[3], data_transaksi[0], config.KODE_TOKO)
                     
-                        query = helper.query_update_bank_builder('tb_integrasi')
+                        query = "UPDATE tb_integrasi SET rekening = %s, tanggal = %s, total = %s where id_transaksi = %s"
                         cur_toko.execute(query, data)
 
                         query = helper.query_update_bank_builder('tb_integrasi')
-                        cur_bank.execute(query, data)
+                        cur_bank.execute(query, data_kode)
                         
                         query = helper.query_update_bank_builder('tb_transaksi')
-                        cur_bank.execute(query, data)
+                        cur_bank.execute(query, data_kode)
 
     conn_toko.commit()
     conn_bank.commit()
