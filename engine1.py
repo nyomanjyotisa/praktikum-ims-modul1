@@ -16,7 +16,8 @@ while (1):
     query = "SELECT * FROM tb_history"
     cur_toko.execute(query)
     integrasi = cur_toko.fetchall()
-
+    
+    # get update
     print('get update')
     for data_transaksi in transaksi:
         query = "SELECT * FROM tb_history WHERE id_transaksi = %s AND sumber = 'bank' ORDER BY id_history DESC LIMIT 1"
@@ -26,7 +27,8 @@ while (1):
         if history is None:
             continue
 
-        if (data_transaksi[4] != history[5]):            
+        if (data_transaksi[4] != history[5]): 
+            print("Update id %s" % (data_transaksi[0]))     
             data = (history[5], history[1])
             query = "UPDATE tb_transaksi SET status = %s where id_transaksi = %s"
             cur_toko.execute(query, data)
