@@ -18,30 +18,19 @@ while (1):
     integrasi = cur_toko.fetchall()
 
     print('get update')
-    # get update
-    for data_integrasi in integrasi:
-        if (data_integrasi[6] == 'update') and (data_integrasi[8] == 'bank'):
-            is_sync = 0
-            for data_transaksi in transaksi:
-                if ((data_integrasi[1] == data_transaksi[0]) and (data_integrasi[5] == data_transaksi[4])):
-                    is_sync = 1
-        
-            if (is_sync == 0):
-                # print("Update id %s" % (data_integrasi[1]))
-                data = (data_integrasi[5], data_integrasi[1])
-                query = "UPDATE tb_transaksi SET status = %s where id_transaksi = %s"
-                cur_toko.execute(query, data)
-                conn_toko.commit()
-    # for data_transaksi in transaksi:
-    #     query = "SELECT * FROM tb_history WHERE id_transaksi = %s AND sumber = 'bank' ORDER BY id_history DESC LIMIT 1"
-    #     cur_toko.execute(query, data_transaksi[0])
-    #     history = cur_toko.fetchall()
-    #     for data_history in history:
-    #         if ((data_transaksi[1] != data_history[2]) or (data_transaksi[2] != data_history[3]) or (data_transaksi[3] != data_history[4])):            
-    #             data = (data_history[5], data_history[1])
-    #             query = "UPDATE tb_transaksi SET status = %s where id_transaksi = %s"
-    #             cur_toko.execute(query, data)
-    #             conn_toko.commit()
+    for data_transaksi in transaksi:
+        query = "SELECT * FROM tb_history WHERE id_transaksi = %s AND sumber = 'bank' ORDER BY id_history DESC LIMIT 1"
+        cur_toko.execute(query, data_transaksi[0])
+        history = cur_toko.fetchone()
+
+        if history is None:
+            continue
+
+        if (data_transaksi[4] != history[5]):            
+            data = (history[5], history[1])
+            query = "UPDATE tb_transaksi SET status = %s where id_transaksi = %s"
+            cur_toko.execute(query, data)
+            conn_toko.commit()
 
     query = "SELECT * FROM tb_transaksi"
     cur_toko.execute(query)
@@ -51,8 +40,8 @@ while (1):
     cur_toko.execute(query)
     integrasi = cur_toko.fetchall()
 
-    print('find insert')
     # insert
+    print('find insert')
     for data_transaksi in transaksi:
         is_sync = 0
         for data_integrasi in integrasi:
@@ -71,8 +60,8 @@ while (1):
             cur_bank.execute(query, data)
             conn_bank.commit()
 
-    print('find delete')
     # delete
+    print('find delete')
     for data_integrasi in integrasi:
         is_sync = 0
         for data_transaksi in transaksi:
@@ -104,8 +93,8 @@ while (1):
             cur_bank.execute(query, data_kode)
             conn_bank.commit()
 
-    print('find update')
     # update
+    print('find update')
     for data_transaksi in transaksi:
         query = "SELECT * FROM tb_history WHERE id_transaksi = %s ORDER BY id_history DESC LIMIT 1"
         cur_toko.execute(query, data_transaksi[0])
