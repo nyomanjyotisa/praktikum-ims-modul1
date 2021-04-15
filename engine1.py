@@ -16,7 +16,7 @@ while (1):
     query = "SELECT * FROM tb_history"
     cur_toko.execute(query)
     integrasi = cur_toko.fetchall()
-    
+
     # get update
     print('get update')
     for data_transaksi in transaksi:
@@ -116,6 +116,7 @@ while (1):
                 conn_bank.commit()
 
     print('done')
+    
     cur_toko.close()
     cur_bank.close()
 

@@ -1,5 +1,6 @@
 DELAY1 = 30
 DELAY2 = 30
+
 KODE_TOKO = 'A'
 
 DB_TOKO = {

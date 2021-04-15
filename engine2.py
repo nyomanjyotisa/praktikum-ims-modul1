@@ -103,6 +103,7 @@ while (1):
                 conn_bank.commit()
 
     print('done')
+    
     cur_toko.close()
     cur_bank.close()
 
